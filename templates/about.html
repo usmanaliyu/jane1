@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+
+<title>About Us - Jane's Fashion </title>
+{% endblock css %}
+
+{% block content %}
+
+
+<section class="page-header">
+	<div class="container">
+	
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">About Us</h1>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'core:home' %}">Home</a></li>
+						<li class="active">About us</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="about section">
+	<div class="container">
+		<div class="title text-center">
+			<h1>"<span class="colored-jane">Giving the best</span> at the best price"</h1>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<img class="img-success" src="{% static 'images/shop/products/product-1.jpg' %}">
+			</div>
+			<div class="col-md-6 text-left">
+				<h2 class="mt-40">Who Are <span class="colored-jane">We</span> </h2>
+				<p> Jane's Fashion is an online shop. We sell male and female fashion items. We import our items directly from the manufacturers and sell in wholesale and retail. </p>
+		
+		
+			</div>
+
+			
+		</div>
+		<div class="row">
+			<div class="col-md-6 text-left">
+				<h2 class="mt-40">What We <span class="colored-jane">Do</span> </h2>
+				<p>
+					We are committed in giving our customers the best quality items at the best price. 
+					We teach interested persons who are willing to learn mini importation from various countries around the world. 
+					You can also contact us for procurement of items from outside  which may not relate to fashion.	</p>
+			
+			</div>
+			<div class="col-md-6">
+				<img class="img-success" src="{% static 'images/shop/products/product-2.jpg' %}">
+			</div>
+		
+
+			
+		</div>
+	</div>
+</section>
+<section class="team-members ">
+	<div class="container">
+		<div class="row">
+			<div class="title"><h2>Team Members</h2></div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="team-member text-left">
+					<img class="img-fluid" src="{% static 'images/team/team-1.jpg' %}">
+					<h4 class="p-t-8">Jonathon Andrew</h4>
+					<p>Founder</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="team-member text-left">
+					<img class="img-fluid" src="{% static 'images/team/team-1.jpg' %}">
+					<h4 class="p-t-8">Jonathon Andrew</h4>
+					<p>Founder</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="team-member text-left">
+					<img class="img-fluid" src="{% static 'images/team/team-1.jpg' %}">
+					<h4 class="p-t-8">Jonathon Andrew</h4>
+					<p>Founder</p>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</section>
+
+
+<div class="section video-testimonial bg-1 overly-white text-center p-t-100 p-b-100 mt-50 m-b-50">
+	<div class="container">
+		<div class="row">
+			{% for item in about %}
+			<div class="col-md-12">
+				<h2>Video presentation</h2>
+				<a class="play-icon" href="{{item.link}}" data-toggle="lightbox">
+					<i class="tf-ion-ios-play"></i>
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% include 'banner4.html' %}
+
+
+
+{% include 'newsletter.html' %}
+
+{% include 'notification.html' %}
+
+{% endblock content %}
