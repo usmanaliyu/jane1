@@ -35,7 +35,8 @@ urlpatterns = [
 
     # path('newsletter/', views.newsletter, name="newsletter"),
     path('dashboard/order/<pk>', views.OrderDetailView.as_view(), name='ordered-detail'),
-    path('wishlist/product/<slug>/', views.wishlist_product, name='wishlist-product')
+    path('wishlist/product/<slug>/', views.wishlist_product, name='wishlist-product'),
+    path('category/<slug>/', views.CategoryView, name='categoryview'),
 
 
 

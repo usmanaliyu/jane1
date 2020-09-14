@@ -9,7 +9,7 @@ from .forms import ReviewForm, CheckoutForm, RefundForm, CouponForm, ContactForm
 from django.utils import timezone
 from django.urls import reverse_lazy, reverse
 from .filters import ItemFilter
-
+from django.core.paginator import Paginator
 
 
 
@@ -87,12 +87,14 @@ class HomeView(ListView):
 class ShopView(ListView):
     model = Item
     template_name = 'shop-sidebar.html'
+    context_object_name = 'category_list'
     paginate_by = 18
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = ItemFilter(
             self.request.GET, queryset=self.get_queryset())
+        context['category_list'] = Category.objects.all()
         return context
    
 
@@ -672,4 +674,26 @@ def remove_single_item_from_cart(request, slug):
 
 
 
-    
+def CategoryView(request, slug):
+    instance = Item.objects.all()
+    categories = Category.objects.all()
+
+    if slug:
+        category = get_object_or_404(Category, slug=slug)
+        instance_list = instance.filter(category=category)
+        paginator = Paginator(instance_list, 12)
+        page = request.GET.get('page')
+        instance = paginator.get_page(page)
+        shoptop = ShoptopBanner.objects.all()[:4]
+        shopside = ShopbottomBanner.objects.all()[:2]
+    content = {
+        'categories': categories,
+        'instance': instance,
+        'category': category,
+        "shoptop": shoptop,
+        "shopside": shopside,
+       
+
+
+    }
+    return render(request, 'categoryview.html', content)
