@@ -1061,7 +1061,8 @@ p img{
 .product-item {
   margin-bottom: 10px !important;
   height: 100%;
-  min-height: 500px !important;
+  width: 100%;
+  min-height: 400px !important;
 
 }
 
