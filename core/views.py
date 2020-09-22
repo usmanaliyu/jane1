@@ -10,7 +10,8 @@ from django.utils import timezone
 from django.urls import reverse_lazy, reverse
 from .filters import ItemFilter
 from django.core.paginator import Paginator
-
+from django.template.loader import render_to_string
+from django.core.mail import send_mail, EmailMessage
 
 
 from .models import (
@@ -94,7 +95,9 @@ class ShopView(ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = ItemFilter(
             self.request.GET, queryset=self.get_queryset())
-        context['category_list'] = Category.objects.all()
+        context.update({
+            'category_list': Category.objects.all()
+        })
         return context
    
 
@@ -203,11 +206,22 @@ class DetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        trip = get_object_or_404(Item, slug=self.get_object().slug)
+        trip_related = trip.tags.similar_objects()[:4]
         context.update({
                 'form': ReviewForm(),
+                  "trip_related": trip_related
            
             }) 
         return context
+
+
+def is_valid_form(values):
+    valid = True
+    for field in values:
+        if field == '':
+            valid = False
+    return valid
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
@@ -245,9 +259,10 @@ class CheckoutView(View):
             return redirect("core:checkout")
 
     def post(self, *args, **kwargs):
-        form = CheckoutForm(self.request.POST or None)
+        
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
+            form = CheckoutForm(self.request.POST or None)
             if form.is_valid():
 
                 use_default_shipping = form.cleaned_data.get(
@@ -376,7 +391,9 @@ class CheckoutView(View):
                         messages.info(
                             self.request, "Please fill in the required billing address fields")
 
-                return redirect('core:janepay')
+                return redirect('core:payment')
+            messages.error(self.request, 'You didn\'t enter any address')
+            return redirect('core:checkout')
 
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
@@ -436,6 +453,16 @@ class ContactView(TemplateView):
 
             )
             contact.save()
+            template = render_to_string('contact_template.html', context)
+            mail =  sale = EmailMessage(
+                'We have a new mail',
+                template,
+                email,
+                ['janesfash@gmail.com']
+
+                )   
+            mail.fail_silently = False
+            mail.send()
             return redirect('core:contact-success')
 
 
@@ -482,7 +509,7 @@ class PaystackView(TemplateView):
             "amount":amount
         }
 
-        if order.address:
+        if order.shipping_address or order.billing_address :
             return render(self.request,  "purchase-confirmation.html", context)
         else:
             messages.error(self.request, "You have no billing address")
@@ -686,13 +713,14 @@ def CategoryView(request, slug):
         instance = paginator.get_page(page)
         shoptop = ShoptopBanner.objects.all()[:4]
         shopside = ShopbottomBanner.objects.all()[:2]
+        category_list= Category.objects.all()
     content = {
         'categories': categories,
         'instance': instance,
         'category': category,
         "shoptop": shoptop,
         "shopside": shopside,
-       
+       'category_list': category_list
 
 
     }

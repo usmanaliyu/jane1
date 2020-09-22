@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
 {% load humanize %}
 
 {% load static %}
@@ -105,7 +106,7 @@
 					<div class="product-category">
 						<span>Categories:</span>
 						<ul>
-							<li><a href="#">{{product.category.name|title}}</a></li>
+							<li><a href="{{product.category.get_category_url}}">{{product.category.name|title}}</a></li>
 					
 						</ul>
 					</div>
@@ -238,53 +239,46 @@
 
 </section>
 
-<!-- <section class="products related-products section">
+<section class="products related-products section">
 	<div class="container">
 		<div class="row">
 			<div class="title text-center">
-				<h2 class="fs-34"> <span class="colored-jane">Related</span> Products</h2>
+				<h2 class="fs-24" >Related  <span class="colored-jane">Products</span></h2>
 			</div>
 		</div>
-		<div class="row">
-	
+		<div class="row">	{% for item in trip_related%}	
 			<div class="col-md-3">
 				<div class="product-item">
 					<div class="product-thumb">
 						<span class="bage">Sale</span>
-						<img class="img-responsive" src="{% static 'images/shop/products/product-5.jpg' %}" alt="product-img" />
-						<div class="preview-meta">
+							{% thumbnail item.image '300x300' crop="center" as jane %}
+						<img class="img-responsive" src="{{jane.url}}" width="{{jane.width}}" 
+						height="{{jane.height}}" alt="jane's Fashion {{item.title|title}}" />
+						{% endthumbnail %}						<div class="preview-meta">
 							<ul>
-								
+						
 								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
-								</li>
-								<li>
-									<a href=""><i class="tf-ion-ios-eye-outline"></i></a>
+									<a href="{{item.get_absolute_url}}"><i class="tf-ion-eye"></i></a>
 								</li>
 							</ul>
                       	</div>
 					</div>
 					<div class="product-content">
-						<h4>Reef Boardsport</h4>
-						<p class="price">$200</p>
+						<h4><a href="{{item.get_absolute_url}}">{{item.title|title}}</a></h4>
+					<p class="price">&#8358;{{item.price|intcomma}}</p>
 					</div>
 				</div>
 			</div>
-	
-			</div>
-		
-			</div>
+	{% endfor %}
 			
 		</div>
 	</div>
-</section> -->
+</section>
 
 
 
 
 
-
-{% include 'newsletter.html' %}
 
 {% include 'notification.html' %}
 {% endblock content %}

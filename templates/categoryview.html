@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block css %}
 {% load thumbnail %}
-<title>Shop - Jane's Fashion</title>
+<title>{{category.name|title}} Category - Jane's Fashion</title>
 {% endblock css %}
 
 {% load humanize %}
@@ -15,10 +15,10 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="content">
-					<h1 class="page-name">Shop</h1>
+					<h1 class="page-name">{{category.name|title}} Category</h1>
 					<ol class="breadcrumb">
 						<li><a href="{% url 'core:home' %}">Home</a></li>
-						<li class="active">Shop</li>
+						<li class="active">{{category.name|title}} Category</li>
 					</ol>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 				<div class="product-item">
 					<div class="product-thumb">
 						<span class="bage">New</span>
-						{% thumbnail item.image '300x400' crop="center" as jane %}
+						{% thumbnail item.image '300x300' crop="center" as jane %}
 						<img class="img-responsive" src="{{jane.url}}" width="{{jane.width}}" 
 						height="{{jane.height}}" alt="jane's Fashion {{item.title|title}}" />
 						{% endthumbnail %}
@@ -59,6 +59,8 @@
 					</div>
 				</div>
 			</div>
+
+
 			{% empty %}
                     <p align="center">No search result available</p>
 {% endfor %}
@@ -67,6 +69,27 @@
 			
 	
 				</div>
+
+					<div class="col-md-3">
+				<div class="widget product-category">
+					<h4 class="widget-title">Categories</h4>
+					<div class="panel-group commonAccordion" >
+					  	<div class="panel">
+						    <div class="panel-heading" >
+						      	<h4 class="panel-title">
+									{% for item in category_list  %}
+									<li><a href="{{ item.get_category_url }}">{{ item.name|title}} <span class="colored-jane">( {{item.get_category_count }} )</span> </a>  </li>
+									{% endfor %}
+						      	</h4>
+						    </div>
+					    
+					  </div>
+					 
+					
+					</div>
+					
+				</div>
+			</div>
 				<div class="text-center">
 					{% if is_paginated %}
 					<ul class="pagination post-pagination">

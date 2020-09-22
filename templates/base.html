@@ -28,6 +28,15 @@
 <meta name="theme-color" content="#B97778">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="description" content="Jane's Fashion">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-178495783-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-178495783-1');
+</script>
 
   {% block css %}
   {% endblock css %}
@@ -134,7 +143,6 @@
 
 
     <!-- Google Mapl -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
   <script type="text/javascript" src="{% static 'plugins/google-map/gmap.js' %}"></script>
   
 

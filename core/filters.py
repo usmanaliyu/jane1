@@ -10,7 +10,7 @@ class ItemFilter(django_filters.FilterSet):
         ('ascending', 'Ascending'),
         ('descending', 'Decending')
     )    
-    ordering = django_filters.ChoiceFilter(label='ordering', choices=CHOICES, method='filter_by_order')
+    ordering = django_filters.ChoiceFilter(label='Ordering', choices=CHOICES, method='filter_by_order')
    
 
     class Meta:

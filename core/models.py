@@ -7,7 +7,7 @@ from django_countries.fields import CountryField
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser
-# from taggit.managers import TaggableManager
+from taggit.managers import TaggableManager
 from ckeditor.fields import RichTextField
 
 
@@ -72,7 +72,6 @@ class Item(models.Model):
     price = models.FloatField()
     new_arrival = models.BooleanField(default=False, blank=True, null=True)
     discount_price = models.FloatField(blank=True, null=True)
-    discount_percent = models.FloatField(blank=True,  null=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, default=1,)
     label = models.CharField(choices=FEATURE_CHOICES, max_length=1000)
@@ -83,7 +82,7 @@ class Item(models.Model):
     image_2 = models.ImageField(blank=True,  null=True)
     image_3 = models.ImageField(blank=True,  null=True)
     image_4 = models.ImageField(blank=True,  null=True)
-
+    tags = TaggableManager()
     pub_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -220,13 +219,13 @@ class Order(models.Model):
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    street_address = models.CharField(max_length=100, blank=False)
-    apartment_address = models.CharField(max_length=100, blank=False)
-    country = CountryField(multiple=False)
+    street_address = models.CharField(max_length=100, blank=False, null=True)
+    apartment_address = models.CharField(max_length=100, blank=False, null=True)
+    country = CountryField(multiple=False, blank=False, null=True)
     zip = models.CharField(max_length=100, blank=False)
     phone = models.CharField(max_length=20, blank=False, null=True)
     state = models.CharField(max_length=120, blank=False, null=True)
-    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
+    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES, blank=False, null=True)
     default = models.BooleanField(default=False)
 
     def __str__(self):

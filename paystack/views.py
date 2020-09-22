@@ -40,10 +40,10 @@ def on_payment_verified(request, sender, ref, amount, **kwargs):
     email = request.user.email
     name = request.user.first_name
     name_2 = request.user.last_name
-    number = order.address.phone
-    address = order.address.address
-    country = order.address.country
-    state = order.address.state
+    number = order.shipping_address.phone
+    address = order.shipping_address.street_address
+    country = order.shipping_address.country
+    state = order.shipping_address.state
 
     context = {
         'order': order,
@@ -88,7 +88,7 @@ def on_payment_verified(request, sender, ref, amount, **kwargs):
     )
     sale.fail_silently = False
     sale.send()
-    template = render_to_string('jane_email.html', context)
+    template = render_to_string('sale_template.html', context)
     jane = EmailMessage(
         'We have received an order!!',
         template,

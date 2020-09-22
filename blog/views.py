@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Blog, BlogComment
 from .forms import BlogCommentForm
+from core.models import Category
 from django.contrib import messages
 from core.models import Item
+from core.forms import ReviewForm, CheckoutForm, RefundForm, CouponForm, ContactForm, NewsletterForm
 from django.db.models import Q
 # Create your views here.
 
@@ -61,8 +63,16 @@ class SearchListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(SearchListView, self).get_context_data(**kwargs)
         query = self.request.GET.get('q')
-        context['query'] = query
+        context.update({
+
+             "category_list": Category.objects.all(),
+              'query': query
+        })
+
+        
         return context
+
+    
     
     def get_queryset(self):
         query = self.request.GET.get('q', None)
