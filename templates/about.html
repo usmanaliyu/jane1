@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load thumbnail %}
 {% block css %}
 
 <title>About Us - Jane's Fashion </title>
@@ -31,7 +32,7 @@
 			<h1>"<span class="colored-jane">Giving the best</span> at the best price"</h1>
 		</div>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6 text-center">
 				<img class="img-success" src="{% static 'images/shop/products/product-1.jpg' %}">
 			</div>
 			<div class="col-md-6 text-left">
@@ -43,7 +44,7 @@
 
 			
 		</div>
-		<div class="row">
+		<div class="row m-t-10">
 			<div class="col-md-6 text-left">
 				<h2 class="mt-40 m-b-5">What We <span class="colored-jane">Do</span> </h2>
 				<p>
@@ -53,8 +54,8 @@
 					You can also contact us for procurement of items from outside  which may not relate to fashion.	</p>
 			
 			</div>
-			<div class="col-md-6">
-				<img class="img-success" src="{% static 'images/shop/products/product-2.jpg' %}">
+			<div class="col-md-6 text-center">
+				<img class="img-success " src="{% static 'images/shop/products/product-2.jpg' %}">
 			</div>
 		
 
@@ -62,37 +63,28 @@
 		</div>
 	</div>
 </section>
-<!-- <section class="team-members ">
+<section class="team-members ">
 	<div class="container">
 		<div class="row">
 			<div class="title"><h2>Team Members</h2></div>
 		</div>
 		<div class="row">
+		{% for item  in team %}
 			<div class="col-md-4">
 				<div class="team-member text-left">
-					<img class="img-fluid" src="{% static 'images/team/team-1.jpg' %}">
-					<h4 class="p-t-8">Jonathon Andrew</h4>
-					<p>Founder</p>
+			{% thumbnail item.image '250x250' crop='center' as jane%}
+					<img class="img-fluid" height="{{jane.height}}" width="{{jane.width}}" src="{{jane.url}}">
+					{% endthumbnail %}
+					<h4 class="fs-24 m-t-16">{{item.name|title}}</h4>
+					<p class="fs-16 m-t-8">{{item.role|title}}</p>
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="team-member text-left">
-					<img class="img-fluid" src="{% static 'images/team/team-1.jpg' %}">
-					<h4 class="p-t-8">Jonathon Andrew</h4>
-					<p>Founder</p>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="team-member text-left">
-					<img class="img-fluid" src="{% static 'images/team/team-1.jpg' %}">
-					<h4 class="p-t-8">Jonathon Andrew</h4>
-					<p>Founder</p>
-				</div>
-			</div>
+			{% endfor %}
+		
 		
 		</div>
 	</div>
-</section> -->
+</section>
 
 
 <div class="section video-testimonial bg-1 overly-white text-center p-t-100 p-b-100 mt-50 m-b-50">

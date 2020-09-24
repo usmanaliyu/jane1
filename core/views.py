@@ -12,9 +12,12 @@ from .filters import ItemFilter
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, EmailMessage
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 from .models import (
+    Team,
     Item, 
     Wishlist, 
     Reviews,
@@ -38,7 +41,7 @@ from .models import (
 )
 
 # Create your views here.
-
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class HomeView(ListView):
     model = Item
     context_object_name ='product'
@@ -162,6 +165,8 @@ class AboutView(TemplateView):
                   'newsletter' : NewsletterForm(),
                     'homeside': HomesideBanner.objects.all()[:1],
                          'about': About.objects.all()[:1],
+            'team': Team.objects.all()
+
         }) 
         return context
      
@@ -453,6 +458,12 @@ class ContactView(TemplateView):
 
             )
             contact.save()
+            context = {
+                "name": name,
+                "subject": subject,
+                "message": message,
+                "email":email
+            }
             template = render_to_string('contact_template.html', context)
             mail =  sale = EmailMessage(
                 'We have a new mail',

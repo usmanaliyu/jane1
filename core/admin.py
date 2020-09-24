@@ -21,7 +21,8 @@ from .models import (
     Wishlist,
     Newsletter,
     About,
-     CustomUser
+     CustomUser,
+     Team
 
 )
 
@@ -129,6 +130,7 @@ admin.site.register(Wishlist)
 admin.site.register(Newsletter)
 admin.site.register(About)
 admin.site.register(CustomUser)
+admin.site.register(Team)
 
 admin.site.site_header = "Jane's Admin"
 admin.site.site_text = "Jane's Admin Portal"
