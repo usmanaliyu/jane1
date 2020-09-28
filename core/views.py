@@ -18,8 +18,8 @@ from django.utils.decorators import method_decorator
 
 from .models import (
     Team,
-    Item, 
-    Wishlist, 
+    Item,
+    Wishlist,
     Reviews,
     OrderItem,
     Order,
@@ -33,7 +33,7 @@ from .models import (
     HomesideBanner,
     ShoptopBanner,
     ShopbottomBanner,
-  
+
     Contact,
     Slider,
     Newsletter,
@@ -44,12 +44,12 @@ from .models import (
 @method_decorator(cache_page(60 * 5), name='dispatch')
 class HomeView(ListView):
     model = Item
-    context_object_name ='product'
+    context_object_name = 'product'
     template_name = 'index.html'
 
     def get_queryset(self):
         qs = Item.objects.order_by('-pub_date')
-      
+
         return qs
 
     def post(self, request, *args, **kwargs):
@@ -61,31 +61,31 @@ class HomeView(ListView):
 
             if existing == 0:
                 news = Newsletter(
-                email=email
-                    )
+                    email=email
+                )
                 news.save()
-                messages.success(self.request, 'You have signup for the newsletter')
+                messages.success(
+                    self.request, 'You have signup for the newsletter')
                 return redirect('core:home')
             else:
-                messages.success(self.request, 'You have already used this email')
+                messages.success(
+                    self.request, 'You have already used this email')
                 return redirect('core:home')
         messages.error(self.request, 'You haven\'t for the newsletter')
         return redirect('core:home')
 
-
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context.update({
-             'newarrivals': Item.objects.filter(new_arrival=True)[:4],
-            'homepage': HomepageBanner.objects.all()[:1],
-            'homeside': HomesideBanner.objects.all()[:1],
-            "shopbottom" : ShopbottomBanner.objects.all()[:1],
-            'shoptop': ShoptopBanner.objects.all()[:1],
-            'slider': Slider.objects.all()[:3],
-            'newsletter' : NewsletterForm()
+            'newarrivals': Item.objects.filter(new_arrival=True)[:4],
+            'homepage': HomepageBanner.objects.order_by('-date')[:1],
+            'homeside': HomesideBanner.objects.order_by('-date')[:1],
+            "shopbottom": ShopbottomBanner.objects.order_by('-date')[:1],
+            'shoptop': ShoptopBanner.objects.order_by('-date')[:1],
+            'slider': Slider.objects.order_by('-date')[:3],
+            'newsletter': NewsletterForm()
         })
         return context
-    
 
 
 class ShopView(ListView):
@@ -102,15 +102,11 @@ class ShopView(ListView):
             'category_list': Category.objects.all()
         })
         return context
-   
 
     def get_queryset(self):
         qs = Item.objects.order_by('-pub_date')
         return qs
 
-    
-
-    
     def post(self, request, *args, **kwargs):
         newsletter = NewsletterForm(self.request.POST)
 
@@ -120,21 +116,19 @@ class ShopView(ListView):
 
             if existing == 0:
                 news = Newsletter(
-                email=email
-                    )
+                    email=email
+                )
                 news.save()
-                messages.success(self.request, 'You have signup for the newsletter')
+                messages.success(
+                    self.request, 'You have signup for the newsletter')
                 return redirect('core:shop')
             else:
-                messages.success(self.request, 'You have already used this email')
+                messages.success(
+                    self.request, 'You have already used this email')
                 return redirect('core:shop')
         messages.error(self.request, 'You haven\'t for the newsletter')
         return redirect('core:shop')
 
-
-    
-
-        
 
 class AboutView(TemplateView):
     template_name = 'about.html'
@@ -148,13 +142,15 @@ class AboutView(TemplateView):
 
             if existing == 0:
                 news = Newsletter(
-                email=email
-                    )
+                    email=email
+                )
                 news.save()
-                messages.success(self.request, 'You have signup for the newsletter')
+                messages.success(
+                    self.request, 'You have signup for the newsletter')
                 return redirect('core:about')
             else:
-                messages.success(self.request, 'You have already used this email')
+                messages.success(
+                    self.request, 'You have already used this email')
                 return redirect('core:about')
         messages.error(self.request, 'You haven\'t for the newsletter')
         return redirect('core:about')
@@ -162,19 +158,13 @@ class AboutView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AboutView, self).get_context_data(**kwargs)
         context.update({
-                  'newsletter' : NewsletterForm(),
-                    'homeside': HomesideBanner.objects.all()[:1],
-                         'about': About.objects.all()[:1],
+            'newsletter': NewsletterForm(),
+            'homeside': HomesideBanner.objects.order_by('-date')[:1],
+            'about': About.objects.order_by('-date')[:1],
             'team': Team.objects.all()
 
-        }) 
+        })
         return context
-     
-    
-   
-    
-
-
 
 
 class DetailView(DetailView):
@@ -182,7 +172,6 @@ class DetailView(DetailView):
     context_object_name = 'product'
     template_name = 'product-single.html'
 
-    
     def post(self, request, *args, **kwargs):
         form = ReviewForm(self.request.POST)
 
@@ -197,27 +186,25 @@ class DetailView(DetailView):
                 review=review
             )
             review.save()
-            messages.success(self.request,'Yay, you are amazing for the review')
+            messages.success(
+                self.request, 'Yay, you are amazing for the review')
             return redirect('core:details', slug=item.slug)
-        messages.error(self.request,'Oh no, you didn\'t any review')
+        messages.error(self.request, 'Oh no, you didn\'t any review')
         return redirect('core:details', slug=self.get_object().slug)
 
     def get_object(self, **kwargs):
         qs = super().get_object(**kwargs)
         return qs
-    
-
-  
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         trip = get_object_or_404(Item, slug=self.get_object().slug)
         trip_related = trip.tags.similar_objects()[:4]
         context.update({
-                'form': ReviewForm(),
-                  "trip_related": trip_related
-           
-            }) 
+            'form': ReviewForm(),
+            "trip_related": trip_related
+
+        })
         return context
 
 
@@ -227,6 +214,7 @@ def is_valid_form(values):
         if field == '':
             valid = False
     return valid
+
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
@@ -264,7 +252,7 @@ class CheckoutView(View):
             return redirect("core:checkout")
 
     def post(self, *args, **kwargs):
-        
+
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             form = CheckoutForm(self.request.POST or None)
@@ -405,20 +393,16 @@ class CheckoutView(View):
             return redirect("core:order-summary")
 
 
-
-
-
-
 class CartView(TemplateView):
     template_name = 'cart.html'
 
     def get(self, *args, **kwargs):
         try:
-            shoptop = ShoptopBanner.objects.all()[:2]
+            shoptop = ShoptopBanner.objects.order_by('-date')[:2]
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
                 'object': order,
-          
+
             }
             return render(self.request, 'cart.html', context)
         except ObjectDoesNotExist:
@@ -428,7 +412,6 @@ class CartView(TemplateView):
 
 class FaqView(TemplateView):
     template_name = 'faq.html'
-
 
 
 class ContactView(TemplateView):
@@ -462,16 +445,16 @@ class ContactView(TemplateView):
                 "name": name,
                 "subject": subject,
                 "message": message,
-                "email":email
+                "email": email
             }
             template = render_to_string('contact_template.html', context)
-            mail =  sale = EmailMessage(
+            mail = sale = EmailMessage(
                 'We have a new mail',
                 template,
                 email,
                 ['janesfash@gmail.com']
 
-                )   
+            )
             mail.fail_silently = False
             mail.send()
             return redirect('core:contact-success')
@@ -479,7 +462,6 @@ class ContactView(TemplateView):
 
 class ContactSuccessView(TemplateView):
     template_name = "contact-success.html"
-
 
 
 class LoginView(TemplateView):
@@ -490,21 +472,16 @@ class SignupView(TemplateView):
     template_name = 'signin.html'
 
 
-
 class ForgotView(TemplateView):
     template_name = 'forget-password.html'
-
-
-
 
 
 class ConfirmView(TemplateView):
     template_name = 'confirmation.html'
 
 
-
 class PaystackView(TemplateView):
-    template_name =   "purchase-confirmation.html"
+    template_name = "purchase-confirmation.html"
 
     def get(self, request, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
@@ -515,25 +492,21 @@ class PaystackView(TemplateView):
         amount = order.get_total()
 
         context = {
-            'order':order,
-            "email":email,
-            "amount":amount
+            'order': order,
+            "email": email,
+            "amount": amount
         }
 
-        if order.shipping_address or order.billing_address :
+        if order.shipping_address or order.billing_address:
             return render(self.request,  "purchase-confirmation.html", context)
         else:
             messages.error(self.request, "You have no billing address")
-            return redirect('core:checkout')    
-
-        
-
+            return redirect('core:checkout')
 
 
 class OrderView(LoginRequiredMixin, TemplateView):
-    template_name =   "order.html"
+    template_name = "order.html"
 
-    
     def get_context_data(self, **kwargs):
         context = super(OrderView, self).get_context_data(**kwargs)
         context.update({
@@ -541,15 +514,15 @@ class OrderView(LoginRequiredMixin, TemplateView):
         })
         return context
 
-class OrderDetailView(LoginRequiredMixin,DetailView):
+
+class OrderDetailView(LoginRequiredMixin, DetailView):
     queryset = Order.objects.all()
-    context_object_name ='order'
+    context_object_name = 'order'
     template_name = "order_details.html"
 
 
-
 class DashboardView(LoginRequiredMixin, TemplateView):
-    template_name =   "dashboard.html"
+    template_name = "dashboard.html"
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
@@ -558,10 +531,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         })
         return context
 
-    
 
 def click(request):
-    
+
     return render(request, 'contact.html')
 
 
@@ -569,7 +541,7 @@ def click(request):
 #     template_name =   "pricing.html"
 
 class AddressView(LoginRequiredMixin, TemplateView):
-    template_name =   "address.html"
+    template_name = "address.html"
 
     def get_context_data(self, **kwargs):
         context = super(AddressView, self).get_context_data(**kwargs)
@@ -579,9 +551,9 @@ class AddressView(LoginRequiredMixin, TemplateView):
         return context
 
 
-
 def handler404(request, exception):
     return render(request, '404.html')
+
 
 @login_required
 def wishlist_home(request, slug):
@@ -594,7 +566,6 @@ def wishlist_home(request, slug):
     Wishlist.objects.create(user=request.user, item=item)
     messages.success(request, "You have added an item to your wishlist")
     return redirect('core:home')
-
 
 
 @login_required
@@ -621,7 +592,7 @@ def wishlist_product(request, slug):
     Wishlist.objects.create(user=request.user, item=item)
     messages.success(request, "You have added an item to your wishlist")
     return redirect('core:details', slug=slug)
-     
+
 
 @login_required
 def add_to_cart(request, slug):
@@ -651,6 +622,7 @@ def add_to_cart(request, slug):
         order.items.add(order_item)
         messages.info(request, "This item was added to your cart.")
         return redirect("core:cart")
+
 
 @login_required
 def remove_from_cart(request, slug):
@@ -711,7 +683,6 @@ def remove_single_item_from_cart(request, slug):
         return redirect("core:details", slug=slug)
 
 
-
 def CategoryView(request, slug):
     instance = Item.objects.all()
     categories = Category.objects.all()
@@ -722,16 +693,16 @@ def CategoryView(request, slug):
         paginator = Paginator(instance_list, 12)
         page = request.GET.get('page')
         instance = paginator.get_page(page)
-        shoptop = ShoptopBanner.objects.all()[:4]
-        shopside = ShopbottomBanner.objects.all()[:2]
-        category_list= Category.objects.all()
+        shoptop = ShoptopBanner.objects.order_by('-date')[:4]
+        shopside = ShopbottomBanner.objects.order_by('-date')[:2]
+        category_list = Category.objects.all()
     content = {
         'categories': categories,
         'instance': instance,
         'category': category,
         "shoptop": shoptop,
         "shopside": shopside,
-       'category_list': category_list
+        'category_list': category_list
 
 
     }

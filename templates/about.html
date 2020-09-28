@@ -11,7 +11,7 @@
 
 <section class="page-header">
 	<div class="container">
-	
+
 		<div class="row">
 			<div class="col-md-12">
 				<div class="content">
@@ -33,46 +33,50 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6 text-center">
-				<img class="img-success" src="{% static 'images/shop/products/product-1.jpg' %}">
+				<img class="img-success" src="{% static 'images/about.jpeg' %}">
 			</div>
 			<div class="col-md-6 text-left">
 				<h2 class="mt-40">Who Are <span class="colored-jane">We</span> </h2>
-				<p> Jane's Fashion is an online shop. We sell male and female fashion items. <br> We import our items directly from the manufacturers and sell in wholesale and retail. </p>
-		
-		
+				<p> Jane's Fashion is an online shop. We sell male and female fashion items. <br> We import our items
+					directly from the manufacturers and sell in wholesale and retail. </p>
+
+
 			</div>
 
-			
+
 		</div>
 		<div class="row m-t-10">
 			<div class="col-md-6 text-left">
 				<h2 class="mt-40 m-b-5">What We <span class="colored-jane">Do</span> </h2>
 				<p>
-					We are committed in giving our customers the best quality items at the best price. 
-					We teach interested persons who are willing to learn mini importation from various countries around the world. <br>
+					We are committed in giving our customers the best quality items at the best price.
+					We teach interested persons who are willing to learn mini importation from various countries around
+					the world. <br>
 
-					You can also contact us for procurement of items from outside  which may not relate to fashion.	</p>
-			
+					You can also contact us for procurement of items from outside which may not relate to fashion. </p>
+
 			</div>
 			<div class="col-md-6 text-center">
-				<img class="img-success " src="{% static 'images/shop/products/product-2.jpg' %}">
+				<img class="img-success " src="{% static 'images/about.jpg' %}">
 			</div>
-		
 
-			
+
+
 		</div>
 	</div>
 </section>
 <section class="team-members ">
 	<div class="container">
 		<div class="row">
-			<div class="title"><h2>Team Members</h2></div>
+			<div class="title">
+				<h2>Team Members</h2>
+			</div>
 		</div>
-		<div class="row">
-		{% for item  in team %}
-			<div class="col-md-4">
-				<div class="team-member text-left">
-			{% thumbnail item.image '250x250' crop='center' as jane%}
+		<div class="row d-flex text-center justify-content-center">
+			{% for item in team %}
+			<div class="col-md-4 text-center m-t-16 d-flex justify-content-center">
+				<div class="team-member text-center d-flex justify-content-center">
+					{% thumbnail item.image '250x250' crop='center' as jane%}
 					<img class="img-fluid" height="{{jane.height}}" width="{{jane.width}}" src="{{jane.url}}">
 					{% endthumbnail %}
 					<h4 class="fs-24 m-t-16">{{item.name|title}}</h4>
@@ -80,20 +84,20 @@
 				</div>
 			</div>
 			{% endfor %}
-		
-		
+
+
 		</div>
 	</div>
 </section>
 
 
-<div class="section video-testimonial bg-1 overly-white text-center p-t-100 p-b-100 mt-50 m-b-50">
-	<div class="container">
-		<div class="row">
+<div class="section video-testimonial d-flex test-bg text-center p-t-100 p-b-100 mt-50 m-b-50">
+	<div class="container  d-flex align-items-center justify-content-center">
+		<div class="row d-flex align-items-center justify-content-center">
 			{% for item in about %}
-			<div class="col-md-12">
-				<h2>Video presentation</h2>
-				<a class="play-icon" href="{{item.link}}" data-toggle="lightbox">
+			<div class="col-md-12 d-flex align-items-center justify-content-center">
+				<h2 class="text-white p-t-48">{{item.title|title}}</h2>
+				<a class="play-icon text-white m-t-8" href="{{item.link}}" data-toggle="lightbox">
 					<i class="tf-ion-ios-play"></i>
 				</a>
 			</div>

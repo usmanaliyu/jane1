@@ -1,5 +1,6 @@
 
 
+from django.contrib import messages
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -21,8 +22,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-        'jet.dashboard',
-        'jet',
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,13 +35,13 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "django.contrib.humanize",
     'crispy_forms',
-     'django.contrib.sites',
-         'django_countries',
+    'django.contrib.sites',
+    'django_countries',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-        "paystack",
-        "blog",
+    "paystack",
+    "blog",
     "sorl.thumbnail",
     'django_filters',
     "taggit"
@@ -48,11 +49,11 @@ INSTALLED_APPS = [
 ]
 
 # paystack
-# PAYSTACK_PUBLIC_KEY = "pk_live_3b7b32232d4485c95cdc0c50f83acda3b6f523b1"
-# PAYSTACK_SECRET_KEY = "sk_live_1c2a919aca68e2a4fb2369cd828972d801a29d80"
+PAYSTACK_PUBLIC_KEY = "pk_live_3b7b32232d4485c95cdc0c50f83acda3b6f523b1"
+PAYSTACK_SECRET_KEY = "sk_live_1c2a919aca68e2a4fb2369cd828972d801a29d80"
 
-PAYSTACK_PUBLIC_KEY = "pk_test_6681e7fc29d2350d6f35f98ae14535747f541783"
-PAYSTACK_SECRET_KEY = "sk_test_eb983647781b4cdca3ba3be945637e1585059f71"
+# PAYSTACK_PUBLIC_KEY = "pk_test_6681e7fc29d2350d6f35f98ae14535747f541783"
+# PAYSTACK_SECRET_KEY = "sk_test_eb983647781b4cdca3ba3be945637e1585059f71"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -165,7 +166,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-from django.contrib import messages
 
 MESSAGE_TAGS = {
     messages.INFO: 'alert-info',
@@ -186,7 +186,7 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = 'core.CustomUser'
 
-ACCOUNT_AUTHENTICATION_METHOD= "username_email"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 
 ACCOUNT_EMAIL_REQUIRED = True
 
@@ -198,7 +198,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 
-LOGIN_REDIRECT_URL ='/'
+LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 

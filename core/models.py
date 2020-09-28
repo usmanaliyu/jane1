@@ -11,7 +11,6 @@ from taggit.managers import TaggableManager
 from ckeditor.fields import RichTextField
 
 
-
 FEATURE_CHOICES = (
     ('none', 'None'),
     ('featured_accessories', 'Featured Accessories'),
@@ -30,9 +29,10 @@ ADDRESS_CHOICES = (
 
 class CustomUser(AbstractUser):
     pass
-    
+
     def __str__(self):
         return self.username
+
 
 class Category(models.Model):
     name = models.CharField(max_length=250, blank=True)
@@ -54,9 +54,6 @@ class Category(models.Model):
     @property
     def get_category_count(self):
         return self.item_set.all().count()
-
-
-
 
 
 class UserProfile(models.Model):
@@ -85,7 +82,6 @@ class Item(models.Model):
     tags = TaggableManager()
     pub_date = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
         return self.title
 
@@ -106,16 +102,16 @@ class Item(models.Model):
         return reverse("core:remove-from-cart", kwargs={
             'slug': self.slug
         })
+
     def get_remove_single_from_cart_url(self):
         return reverse("core:remove-single-item-from-cart", kwargs={
             'slug': self.slug
         })
-    
+
     def get_wishlist_home(self):
         return reverse('core:wishlist-home', kwargs={
             "slug": self.slug
         })
-    
 
     def get_wishlist_shop(self):
         return reverse('core:wishlist', kwargs={
@@ -126,7 +122,6 @@ class Item(models.Model):
         return reverse('core:wishlist-product', kwargs={
             "slug": self.slug
         })
-        
 
     @property
     def get_review_count(self):
@@ -135,7 +130,6 @@ class Item(models.Model):
     @property
     def get_reviews(self):
         return self.reviews_set.all()
-
 
     @property
     def get_content_type(self):
@@ -192,7 +186,6 @@ class Order(models.Model):
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
 
-
     '''
     1. Item added to cart
     2. Adding a billing address
@@ -220,12 +213,14 @@ class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     street_address = models.CharField(max_length=100, blank=False, null=True)
-    apartment_address = models.CharField(max_length=100, blank=False, null=True)
+    apartment_address = models.CharField(
+        max_length=100, blank=False, null=True)
     country = CountryField(multiple=False, blank=False, null=True)
     zip = models.CharField(max_length=100, blank=False)
     phone = models.CharField(max_length=20, blank=False, null=True)
     state = models.CharField(max_length=120, blank=False, null=True)
-    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES, blank=False, null=True)
+    address_type = models.CharField(
+        max_length=1, choices=ADDRESS_CHOICES, blank=False, null=True)
     default = models.BooleanField(default=False)
 
     def __str__(self):
@@ -277,6 +272,7 @@ class Slider(models.Model):
     text = models.CharField(max_length=20, blank=True, null=True)
     image = models.ImageField()
     link = models.URLField(max_length=200, blank=True, null=True)
+    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -291,6 +287,7 @@ class HomepageBanner(models.Model):
 
     def __str__(self):
         return f"Image"
+
 
 class About(models.Model):
     link = models.URLField(blank=True, null=True)
@@ -355,14 +352,16 @@ class Contact(models.Model):
 
 
 class Author(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.author.username
 
 
 class Wishlist(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
 

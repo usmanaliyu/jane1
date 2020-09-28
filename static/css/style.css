@@ -133,7 +133,7 @@ height: 500px;
 }
 
 .img-success{
-  width: 300px;
+  width: 100%;
 height: 500px;
 
 padding: 20px !important;
@@ -2044,6 +2044,11 @@ span.colored-jane{
   margin-top: 35px;
 }
 
+.section > *{
+  z-index: 10 !important;
+  position: relative;
+}
+
 .author-about {
   margin-top: 40px;
 }
@@ -2218,9 +2223,26 @@ span.colored-jane{
   height: 100vh;
 }
 
-.bg-1 {
-  background-image: url(../images/backgrounds/bg-1.jpg);
+.test-bg {
+  background-image: url(../images/bg.png);
   background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+  z-index: 10;
+}
+
+
+.test-bg::after{
+  position: absolute;
+  content: '';
+  background: rgba(0, 0, 0, 0.3);
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 .bg-2 {
