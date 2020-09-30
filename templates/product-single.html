@@ -7,8 +7,8 @@
 {% load crispy_forms_tags %}
 {% block css %}
 
-  <title> {{product.title|title}} - Jane's Fashion </title>
-  {% endblock css %}
+<title> {{product.title|title}} - Jane's Fashion </title>
+{% endblock css %}
 
 {% block content %}
 <section class="single-product">
@@ -22,7 +22,7 @@
 				</ol>
 			</div>
 			<div class="col-md-6">
-			
+
 			</div>
 		</div>
 		<div class="row mt-20">
@@ -34,33 +34,38 @@
 							<div class='carousel-inner '>
 								{% if product.image %}
 								<div class='item active'>
-								
-									<img src='{{product.image.url}}'  data-zoom-image="{{product.image.url}}" alt="Jane's Fashion {{product.title|title}}" />
+
+									<img src='{{product.image.url}}' data-zoom-image="{{product.image.url}}"
+										alt="Jane's Fashion {{product.title|title}}" />
 								</div>
 								{% endif %}
 								{% if product_1.image %}
 								<div class='item'>
-									<img src='{{product.image_1.url}}' alt="Jane's Fashion {{product.title|title}}" data-zoom-image="{{product.image_1.url}}" />
+									<img src='{{product.image_1.url}}' alt="Jane's Fashion {{product.title|title}}"
+										data-zoom-image="{{product.image_1.url}}" />
 								</div>
 								{% endif %}
 								{% if product_2.image %}
 								<div class='item'>
-									<img src='{{product.image_2.url}}' alt="Jane's Fashion {{product.title|title}}" data-zoom-image="{{product.image_2.url}}" />
+									<img src='{{product.image_2.url}}' alt="Jane's Fashion {{product.title|title}}"
+										data-zoom-image="{{product.image_2.url}}" />
 								</div>
 								{% endif %}
 								{% if product_3.image %}
 								<div class='item'>
-									<img src='{{product.image_3.url}}' alt="Jane's Fashion {{product.title|title}}" data-zoom-image="{{product.image_3.url}}' %}" />
-								</div>			{% endif %}
+									<img src='{{product.image_3.url}}' alt="Jane's Fashion {{product.title|title}}"
+										data-zoom-image="{{product.image_3.url}}' %}" />
+								</div> {% endif %}
 
 								{% if product_4.image %}
 								<div class='item'>
-									<img src='{{product.image_4.url}}' alt="Jane's Fashion {{product.title|title}}" data-zoom-image="{{product.image_4.url}}' %}" />
+									<img src='{{product.image_4.url}}' alt="Jane's Fashion {{product.title|title}}"
+										data-zoom-image="{{product.image_4.url}}' %}" />
 								</div>
 								{% endif %}
-								
+
 							</div>
-							
+
 							<!-- sag sol -->
 							<a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
 								<i class="tf-ion-ios-arrow-left"></i>
@@ -69,7 +74,7 @@
 								<i class="tf-ion-ios-arrow-right"></i>
 							</a>
 						</div>
-						
+
 						<!-- thumb -->
 						<ol class='carousel-indicators mCustomScrollbar meartlab'>
 							{% if product.image %}
@@ -96,7 +101,7 @@
 							<li data-target='#carousel-custom' data-slide-to='4'>
 								<img src='{{product.image_4.url}}' alt="Jane's Fashion {{product.title|title}}" />
 							</li>
-					{% endif %}
+							{% endif %}
 						</ol>
 					</div>
 				</div>
@@ -107,17 +112,52 @@
 						<span>Categories:</span>
 						<ul>
 							<li><a href="{{product.category.get_category_url}}">{{product.category.name|title}}</a></li>
-					
+
 						</ul>
 					</div>
 					<h2 class='fs-34  p-t-8 p-b-8'>{{product.title|title}}</h2>
-					<h4 class="product-price fs-20 p-t-8">	&#8358;  {{product.price|intcomma}}</h4>
-					
+					<h4 class="product-price fs-20 p-t-8"> &#8358; {{product.price|intcomma}}</h4>
+
 					<p class="product-description mt-20">
 						{{product.description|safe}}
 					</p>
-					
-			
+
+					<div class="color-swatches m-t-16">
+						<span>Available Color:</span>
+						<ul>
+							{% if product.color ==  'black' %}
+							<li>
+								<a class="swatch-black"></a>
+							</li>
+							{% endif %}
+							{% if product.color ==  'white' %}
+							<li>
+								<a class="swatch-white"></a>
+							</li>
+							{% endif %}
+							{% if product.color ==  'red' %}
+							<li>
+								<a class="swatch-red"></a>
+							</li> {% endif %}
+							{% if product.color ==  'green' %}
+							<li>
+								<a class="swatch-green"></a>
+							</li> {% endif %}
+							{% if product.color ==  'purple' %}
+							<li>
+								<a class="swatch-purple"></a>
+							</li> {% endif %}
+							{% if product.color ==  'brown' %}
+							<li>
+								<a class="swatch-brown"></a>
+							</li> {% endif %}
+							{% if product.color == 'pink' %}
+							<li>
+								<a class="swatch-pink"></a>
+							</li> {% endif %}
+						</ul>
+					</div>
+
 					{% comment %} <div class="product-size">
 						<span>Size:</span>
 						<select class="form-control">
@@ -133,9 +173,11 @@
 							<input id="product-quantity" type="text" value="0" name="product-quantity">
 						</div>
 					</div> {% endcomment %}
-				
-					<a href="{{product.get_add_to_cart_url}}" class="btn fs-16 btn-main mt-20" > <i class="tf-ion-ios-cart"></i> Buy Now</a> <br>
-					<a href="{{product.get_wishlist_product}}" class="btn btn-solid-border mt-20"  > <i class="fs-16 tf-ion-ios-heart"></i>  Save For Later </a>
+
+					<a href="{{product.get_add_to_cart_url}}" class="btn fs-16 btn-main mt-20"> <i
+							class="tf-ion-ios-cart"></i> Buy Now</a> <br>
+					<a href="{{product.get_wishlist_product}}" class="btn btn-solid-border mt-20"> <i
+							class="fs-16 tf-ion-ios-heart"></i> Save For Later </a>
 				</div>
 
 			</div>
@@ -146,87 +188,89 @@
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#details" aria-expanded="true">Details</a></li>
 						<li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">
-							
-							{% if product.get_review_count == 1 or product.get_review_count == 0 %}Review{% else %}Reviews {% endif %} ({{product.get_review_count}})</a></li>
-						<li class=""><a data-toggle="tab" href="#leave-reviews" aria-expanded="false">Drop Review Lovelies</a></li>
+
+								{% if product.get_review_count == 1 or product.get_review_count == 0 %}Review{% else %}Reviews
+								{% endif %} ({{product.get_review_count}})</a></li>
+						<li class=""><a data-toggle="tab" href="#leave-reviews" aria-expanded="false">Drop Review
+								Lovelies</a></li>
 					</ul>
 					<div class="tab-content patternbg">
 						<div id="details" class="tab-pane  fade active in">
 							<h4 class="fs-34  p-b-8">Product Description</h4>
-							<p class="fs-18">	{{product.description|safe}}</p>
+							<p class="fs-18"> {{product.description|safe}}</p>
 						</div>
 						<div id="reviews" class="tab-pane fade">
 							<div class="post-comments">
-						    	<ul class="media-list comments-list m-bot-50 clearlist">
+								<ul class="media-list comments-list m-bot-50 clearlist">
 									<!-- Comment Item start-->
 									{% for review in product.get_reviews%}
 									<li class="media">
 
-								        <a class="pull-left" href="#">
-								        
-								        </a>
+										<a class="pull-left" href="#">
 
-								        <div class="media-body">
-								            <div class="comment-info">
-								                <h4 class="comment-author">
+										</a>
+
+										<div class="media-body">
+											<div class="comment-info">
+												<h4 class="comment-author">
 													<a href="" onclick="reviewComment()">{{review.user|title}}</a>
-								                	
-								                </h4>
-								                <time datetime="2013-04-06T13:53">{{review.time}}</time>
-								               
-								            </div>
 
-								            <p>
-{{review.review|safe}}
-								            </p>
-								        </div>
+												</h4>
+												<time datetime="2013-04-06T13:53">{{review.time}}</time>
+
+											</div>
+
+											<p>
+												{{review.review|safe}}
+											</p>
+										</div>
 
 									</li>
-									{% endfor %}							
-								    <!-- End Comment Item -->
+									{% endfor %}
+									<!-- End Comment Item -->
 
 
-							</ul>
+								</ul>
 							</div>
 
-							
+
 						</div>
 						<div id="leave-reviews" class="tab-pane fade">
-						
+
 
 							<div class="post-comments-form">
 								<h3 class="post-sub-heading">Leave Your Reviews</h3>
-						{% if request.user.is_authenticated %}
-						<form method="post" id="form" role="form" >
-							{% csrf_token %}
-												<div class="row">
-					
-												   
-					
-													<!-- Comment -->
-													<div class="form-group col-md-12">
-												
-													{{form|crispy}}
-													</div>
-					
-													<!-- Send Button -->
-													<div class="form-group col-md-12">
-														<button type="submit" class="btn btn-small btn-main ">
-															Send comment
-														</button>
-													</div>
-					
-					
-												</div>
-					
-											</form>
-											{% else %}
+								{% if request.user.is_authenticated %}
+								<form method="post" id="form" role="form">
+									{% csrf_token %}
+									<div class="row">
 
-											<a href="{% url 'account_login' %}" class="btn btn-main">Login To Review</a>
-						{% endif %}
+
+
+										<!-- Comment -->
+										<div class="form-group col-md-12">
+
+											{{form|crispy}}
+										</div>
+
+										<!-- Send Button -->
+										<div class="form-group col-md-12">
+											<button type="submit" class="btn btn-small btn-main ">
+												Send comment
+											</button>
+										</div>
+
+
+									</div>
+
+								</form>
+								{% else %}
+
+								<a href="{% url 'account_login' %}" class="btn btn-main">Login To Review</a>
+								{% endif %}
 							</div>
-		
-							
+
+
 						</div>
 					</div>
 				</div>
@@ -243,34 +287,34 @@
 	<div class="container">
 		<div class="row">
 			<div class="title text-center">
-				<h2 class="fs-24" >Related  <span class="colored-jane">Products</span></h2>
+				<h2 class="fs-24">Related <span class="colored-jane">Products</span></h2>
 			</div>
 		</div>
-		<div class="row">	{% for item in trip_related%}	
+		<div class="row"> {% for item in trip_related%}
 			<div class="col-md-3">
 				<div class="product-item">
 					<div class="product-thumb">
 						<span class="bage">Sale</span>
-							{% thumbnail item.image '300x300' crop="center" as jane %}
-						<img class="img-responsive" src="{{jane.url}}" width="{{jane.width}}" 
-						height="{{jane.height}}" alt="jane's Fashion {{item.title|title}}" />
-						{% endthumbnail %}						<div class="preview-meta">
+						{% thumbnail item.image '300x300' crop="center" as jane %}
+						<img class="img-responsive" src="{{jane.url}}" width="{{jane.width}}" height="{{jane.height}}"
+							alt="jane's Fashion {{item.title|title}}" />
+						{% endthumbnail %} <div class="preview-meta">
 							<ul>
-						
+
 								<li>
 									<a href="{{item.get_absolute_url}}"><i class="tf-ion-eye"></i></a>
 								</li>
 							</ul>
-                      	</div>
+						</div>
 					</div>
 					<div class="product-content">
 						<h4><a href="{{item.get_absolute_url}}">{{item.title|title}}</a></h4>
-					<p class="price">&#8358;{{item.price|intcomma}}</p>
+						<p class="price">&#8358;{{item.price|intcomma}}</p>
 					</div>
 				</div>
 			</div>
-	{% endfor %}
-			
+			{% endfor %}
+
 		</div>
 	</div>
 </section>

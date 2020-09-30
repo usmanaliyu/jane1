@@ -21,6 +21,21 @@ FEATURE_CHOICES = (
 
 )
 
+
+COLOR = (
+    ('black', 'Black'),
+    ('white', 'White'),
+    ('red', 'Red'),
+    ('pink', 'Pink'),
+    ('green', 'Green'),
+    ('purple', 'Purple'),
+    ('brown', 'Brown'),
+
+
+
+
+)
+
 ADDRESS_CHOICES = (
     ('B', 'Billing'),
     ('S', 'Shipping'),
@@ -71,6 +86,8 @@ class Item(models.Model):
     discount_price = models.FloatField(blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, default=1,)
+    color = models.CharField(
+        choices=COLOR, max_length=1000, blank=True,  null=True)
     label = models.CharField(choices=FEATURE_CHOICES, max_length=1000)
     slug = models.SlugField()
     description = RichTextField(blank=True,  null=True)

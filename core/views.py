@@ -12,7 +12,7 @@ from .filters import ItemFilter
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, EmailMessage
-from django.views.decorators.cache import cache_page
+
 from django.utils.decorators import method_decorator
 
 
@@ -41,7 +41,8 @@ from .models import (
 )
 
 # Create your views here.
-@method_decorator(cache_page(60 * 5), name='dispatch')
+
+
 class HomeView(ListView):
     model = Item
     context_object_name = 'product'
@@ -707,3 +708,7 @@ def CategoryView(request, slug):
 
     }
     return render(request, 'categoryview.html', content)
+
+
+class ReturnView(TemplateView):
+    template_name = 'returns.html'
