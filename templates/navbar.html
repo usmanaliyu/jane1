@@ -98,6 +98,17 @@
 						<a href="{% url 'core:about' %}">About Us</a>
 					</li>
 
+					<li class="dropdown dropdown-slide">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+							data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Our Categories
+							<span class="tf-ion-ios-arrow-down"></span></a>
+						<ul class="dropdown-menu">
+							{% for item in category_list  %}
+							<li><a href="{{ item.get_category_url }}">{{ item.name|title}} </a></li>
+							{% endfor %}
+						</ul>
+					</li><!-- / Blog -->
+
 					<li class="dropdown ">
 						<a href="{% url 'blog:blog' %}">Our Blog</a>
 					</li>

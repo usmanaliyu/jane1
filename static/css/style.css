@@ -534,6 +534,7 @@ p img{
 .dropdown-slide.full-width .dropdown-menu {
   left: 0 !important;
   right: 0 !important;
+  z-index: 100000;
 }
 
 .dropdown-slide:hover .dropdown-menu {

@@ -84,7 +84,8 @@ class HomeView(ListView):
             "shopbottom": ShopbottomBanner.objects.order_by('-date')[:1],
             'shoptop': ShoptopBanner.objects.order_by('-date')[:1],
             'slider': Slider.objects.order_by('-date')[:3],
-            'newsletter': NewsletterForm()
+            'newsletter': NewsletterForm(),
+            'category_list': Category.objects.all()
         })
         return context
 
@@ -162,7 +163,8 @@ class AboutView(TemplateView):
             'newsletter': NewsletterForm(),
             'homeside': HomesideBanner.objects.order_by('-date')[:1],
             'about': About.objects.order_by('-date')[:1],
-            'team': Team.objects.all()
+            'team': Team.objects.all(),
+            'category_list': Category.objects.all()
 
         })
         return context
@@ -203,7 +205,8 @@ class DetailView(DetailView):
         trip_related = trip.tags.similar_objects()[:4]
         context.update({
             'form': ReviewForm(),
-            "trip_related": trip_related
+            "trip_related": trip_related,
+            'category_list': Category.objects.all()
 
         })
         return context
@@ -221,12 +224,14 @@ class CheckoutView(View):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
+            category_list = Category.objects.all()
             form = CheckoutForm()
             context = {
                 'form': form,
                 'couponform': CouponForm(),
                 'order': order,
-                'DISPLAY_COUPON_FORM': True
+                'DISPLAY_COUPON_FORM': True,
+                'category_list': category_list
             }
 
             shipping_address_qs = Address.objects.filter(
@@ -400,9 +405,12 @@ class CartView(TemplateView):
     def get(self, *args, **kwargs):
         try:
             shoptop = ShoptopBanner.objects.order_by('-date')[:2]
+            category_list = Category.objects.all()
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
                 'object': order,
+                'category_list': category_list
+
 
             }
             return render(self.request, 'cart.html', context)
@@ -414,6 +422,14 @@ class CartView(TemplateView):
 class FaqView(TemplateView):
     template_name = 'faq.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+
+            'category_list':  Category.objects.all()
+        })
+        return context
+
 
 class ContactView(TemplateView):
     template_name = 'contact.html'
@@ -421,7 +437,8 @@ class ContactView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'form': ContactForm()
+            'form': ContactForm(),
+            'category_list':  Category.objects.all()
         })
         return context
 
@@ -464,6 +481,14 @@ class ContactView(TemplateView):
 class ContactSuccessView(TemplateView):
     template_name = "contact-success.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+
+            'category_list':  Category.objects.all()
+        })
+        return context
+
 
 class LoginView(TemplateView):
     template_name = 'login.html'
@@ -495,7 +520,8 @@ class PaystackView(TemplateView):
         context = {
             'order': order,
             "email": email,
-            "amount": amount
+            "amount": amount,
+            'category_list':  Category.objects.all()
         }
 
         if order.shipping_address or order.billing_address:
@@ -511,7 +537,9 @@ class OrderView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(OrderView, self).get_context_data(**kwargs)
         context.update({
-            'order': Order.objects.filter(user=self.request.user, ordered=True)
+            'order': Order.objects.filter(user=self.request.user, ordered=True),
+
+            'category_list':  Category.objects.all()
         })
         return context
 
@@ -521,6 +549,14 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'order'
     template_name = "order_details.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+
+            'category_list':  Category.objects.all()
+        })
+        return context
+
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = "dashboard.html"
@@ -528,7 +564,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
         context.update({
-            'wishlist': Wishlist.objects.filter(user=self.request.user)
+            'wishlist': Wishlist.objects.filter(user=self.request.user),
+            'category_list':  Category.objects.all()
         })
         return context
 
@@ -547,7 +584,8 @@ class AddressView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AddressView, self).get_context_data(**kwargs)
         context.update({
-            'order': Order.objects.filter(user=self.request.user, ordered=True)
+            'order': Order.objects.filter(user=self.request.user, ordered=True),
+            'category_list':  Category.objects.all()
         })
         return context
 
@@ -712,3 +750,10 @@ def CategoryView(request, slug):
 
 class ReturnView(TemplateView):
     template_name = 'returns.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddressView, self).get_context_data(**kwargs)
+        context.update({
+            'category_list':  Category.objects.all()
+        })
+        return context
