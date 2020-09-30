@@ -523,7 +523,8 @@ p img{
 
 .dropdown-slide {
   position: static;
-  z-index: 1000;
+
+  z-index: 100000;
 }
 
 .dropdown-slide .open > a,
@@ -563,7 +564,8 @@ background: #000;
   display: block;
   visibility: hidden;
   opacity: 0;
-  z-index: 1000;
+  z-index: 100000;
+  
   background: #000000;
   transform: translateY(30px);
   transition: visibility 0.2s, opacity 0.2s,
