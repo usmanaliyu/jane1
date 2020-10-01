@@ -167,15 +167,8 @@
 							<option>XL</option>
 						</select>
 					</div> {% endcomment %}
-					{% comment %} <div class="product-quantity">
-						<span>Quantity:</span>
-						<div class="product-quantity-slider">
-							<input id="product-quantity" type="text" value="0" name="product-quantity">
-						</div>
-					</div> {% endcomment %}
-
 					<a href="{{product.get_add_to_cart_url}}" class="btn fs-16 btn-main mt-20"> <i
-							class="tf-ion-ios-cart"></i> Buy Now</a> <br>
+							class="tf-ion-ios-cart"></i> Buy Now</a>
 					<a href="{{product.get_wishlist_product}}" class="btn btn-solid-border mt-20"> <i
 							class="fs-16 tf-ion-ios-heart"></i> Save For Later </a>
 				</div>
@@ -198,6 +191,16 @@
 						<div id="details" class="tab-pane  fade active in">
 							<h4 class="fs-34  p-b-8">Product Description</h4>
 							<p class="fs-18"> {{product.description|safe}}</p>
+							{% if product.size_chart %}
+							<div class="product-quantity">
+
+								<h2>Size Chart:</h2>
+								<div class="product-quantity-slider">
+									<img class="product-chart" src="{{product.size_chart.url}}" alt="">
+								</div>
+
+							</div>
+							{%endif %}
 						</div>
 						<div id="reviews" class="tab-pane fade">
 							<div class="post-comments">
@@ -213,10 +216,10 @@
 										<div class="media-body">
 											<div class="comment-info">
 												<h4 class="comment-author">
-													<a href="" onclick="reviewComment()">{{review.user|title}}</a>
+													<a>{{review.user|title}}</a>
 
 												</h4>
-												<time datetime="2013-04-06T13:53">{{review.time}}</time>
+												<h6 class="fs-16">{{review.time}}</h6>
 
 											</div>
 
@@ -226,6 +229,8 @@
 										</div>
 
 									</li>
+									{%empty%}
+									<p>No review yet</p>
 									{% endfor %}
 									<!-- End Comment Item -->
 

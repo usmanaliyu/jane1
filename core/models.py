@@ -91,6 +91,7 @@ class Item(models.Model):
     label = models.CharField(choices=FEATURE_CHOICES, max_length=1000)
     slug = models.SlugField()
     description = RichTextField(blank=True,  null=True)
+    size_chart = models.ImageField(blank=True,  null=True)
     image = models.ImageField()
     image_1 = models.ImageField(blank=True,  null=True)
     image_2 = models.ImageField(blank=True,  null=True)
